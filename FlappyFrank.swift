@@ -15,7 +15,7 @@ class FlappyFrank: SKScene{
                 
             
           
-            Frank.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
             Frank.setScale(0.5)
             addChild(Frank)
             
