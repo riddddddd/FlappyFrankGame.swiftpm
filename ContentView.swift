@@ -4,6 +4,17 @@ import SpriteKit
 
 struct ContentView: View {
     var body: some View {
-        SpriteView(scene: FlappyFrank())
+        
+        
+        
+        GeometryReader{ geometry in 
+            
+            SpriteView(scene: FlappyFrank(size: geometry.size))
+
+        }
+        
+
+        
+        
     }
 }
