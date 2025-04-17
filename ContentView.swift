@@ -4,11 +4,15 @@ import SpriteKit
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
+        SpriteView(scene: scene)
+            .ignoresSafeArea()
     }
+    var scene: SKScene {
+        let scene = FlappyFrank()
+            scene.size = CGSize(width: 400, height: 800)
+            scene.scaleMode = .resizeFill
+            return scene
+        }
+
+        
 }
