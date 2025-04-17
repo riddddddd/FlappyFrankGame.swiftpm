@@ -9,7 +9,10 @@ import SpriteKit
 
 class FlappyFrank: SKScene{
     
-    
+    override func sceneDidLoad() {
+        //sky
+        self.backgroundColor = .cyan
+    }
     
     
     
