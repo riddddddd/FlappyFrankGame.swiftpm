@@ -19,4 +19,16 @@ class FlappyFrank: SKScene{
             Frank.setScale(0.5)
             addChild(Frank)
         }
+    
+    override func sceneDidLoad() {
+        //sky
+        self.backgroundColor = .cyan
+    }
+    
+    
+    
+    
+    
+    
+    
 }
