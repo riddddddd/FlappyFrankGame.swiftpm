@@ -9,7 +9,7 @@ struct ContentView: View {
     }
     var scene: SKScene {
         let scene = FlappyFrank()
-            scene.size = CGSize(width: 400, height: 800)
+            scene.size = CGSize(width: 200, height: 400)
             scene.scaleMode = .resizeFill
             return scene
         }
