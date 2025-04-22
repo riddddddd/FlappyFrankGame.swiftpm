@@ -13,6 +13,19 @@ class FlappyFrank: SKScene{
     let Pipe = SKSpriteNode(imageNamed: "Pipe")
     
     
+    override func sceneDidLoad() {
+        //sky
+        self.backgroundColor = .cyan
+        
+        //Frank
+        self.addChild(Frank)
+        Frank.position = CGPoint(x: 500, y: 500)
+        
+        //Pipe (work in progress)
+        self.addChild(Pipe)
+        Pipe.position = CGPoint(x: 200, y: 200)
+        
+        
     
     
     
