@@ -24,5 +24,31 @@ class FlappyFrank: SKScene{
         //Pipe
         self.addChild(Pipe)
         Pipe.position = CGPoint(x: 200, y: 200)
+        
+        
+    
+    
+    
+    
+    override func didMove(to view: SKView) {
+        
+        backgroundColor = .cyan
+        Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
+        Frank.setScale(0.5)
+        Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
+        Frank.physicsBody?.affectedByGravity = true
+        Frank.physicsBody?.allowsRotation = false
+        addChild(Frank)
+        physicsWorld.gravity = CGVector(dx: 0, dy: -10)
+       
+    }
+    func flap() {
+        Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 130))
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        flap()
     }
 }
