@@ -41,12 +41,12 @@ class FlappyFrank: SKScene{
         ceiling.physicsBody?.isDynamic = false
         addChild(ceiling)
         
-        
-        //Start Button
-        self.addChild(Start)
-        Start.position = CGPoint(x: size.width/2 , y: size.height / 4)
-        Start.name =
     }
+        //Start Button
+//        self.addChild(Start)
+//        Start.position = CGPoint(x: size.width/2 , y: size.height / 4)
+//        Start.name =
+//    }
     
     
     
@@ -63,7 +63,7 @@ class FlappyFrank: SKScene{
         
         
         Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
-        Frank.setScale(0.5)
+        Frank.setScale(0.07)
         Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
         Frank.physicsBody?.affectedByGravity = true
         Frank.physicsBody?.allowsRotation = false
@@ -74,13 +74,13 @@ class FlappyFrank: SKScene{
             Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
             Frank.physicsBody?.affectedByGravity = true
             Frank.physicsBody?.allowsRotation = false
-            physicsWorld.gravity = CGVector(dx: 0, dy: -20)
+            physicsWorld.gravity = CGVector(dx: 0, dy: -25)
             Start.position = CGPoint(x: 10000, y: 10000)
         }
     }
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 130))
+        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 200))
     }
     
     func start(){
