@@ -13,26 +13,42 @@ class FlappyFrank: SKScene{
     let Pipe = SKSpriteNode(imageNamed: "Pipe")
     
     
+    
     override func sceneDidLoad() {
         //sky
         self.backgroundColor = .cyan
         
         //Frank
-        self.addChild(Frank)
-        Frank.position = CGPoint(x: 500, y: 500)
+        //        self.addChild(Frank)
+        //        Frank.position = CGPoint(x: 500, y: 500)
         
         //Pipe (work in progress)
         self.addChild(Pipe)
         Pipe.position = CGPoint(x: 200, y: 200)
+        let floor = SKSpriteNode(color: .green, size: CGSize(width: 1000, height: 40))
+        
+        floor.position = CGPoint(x: size.width / 2, y: 20)
+        floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
+        floor.physicsBody?.isDynamic = false
+        addChild(floor)
+        let ceiling = SKSpriteNode(color: .black, size: CGSize(width: 1000, height: 40))
+        ceiling.position = CGPoint(x: size.width / 2, y: 950)
+        ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
+        ceiling.physicsBody?.isDynamic = false
+        addChild(ceiling)
         
         
+    }
+    
+    
+    
+    
     
     
     
     
     override func didMove(to view: SKView) {
         
-        backgroundColor = .cyan
         Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
         Frank.setScale(0.5)
         Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
@@ -40,7 +56,7 @@ class FlappyFrank: SKScene{
         Frank.physicsBody?.allowsRotation = false
         addChild(Frank)
         physicsWorld.gravity = CGVector(dx: 0, dy: -10)
-       
+        
     }
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
@@ -51,6 +67,6 @@ class FlappyFrank: SKScene{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         flap()
     }
-
+    
 }
 
