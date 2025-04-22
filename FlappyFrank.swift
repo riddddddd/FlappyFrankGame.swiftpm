@@ -17,23 +17,40 @@ class FlappyFrank: SKScene{
     var playing = false
     
     
+    
     override func sceneDidLoad() {
         //sky
         self.backgroundColor = .cyan
         
         //Frank
-        self.addChild(Frank)
-        Frank.position = CGPoint(x: 300 , y: 250)
+        //        self.addChild(Frank)
+        //        Frank.position = CGPoint(x: 500, y: 500)
         
         //Pipe
         self.addChild(Pipe)
         Pipe.position = CGPoint(x: 200, y: 200)
+        let floor = SKSpriteNode(color: .green, size: CGSize(width: 1000, height: 40))
+        
+        floor.position = CGPoint(x: size.width / 2, y: 20)
+        floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
+        floor.physicsBody?.isDynamic = false
+        addChild(floor)
+        let ceiling = SKSpriteNode(color: .black, size: CGSize(width: 1000, height: 40))
+        ceiling.position = CGPoint(x: size.width / 2, y: 950)
+        ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
+        ceiling.physicsBody?.isDynamic = false
+        addChild(ceiling)
+        
         
         //Start Button
         self.addChild(Start)
         Start.position = CGPoint(x: size.width/2 , y: size.height / 4)
         Start.name =
     }
+    
+    
+    
+    
     
     
     
@@ -47,6 +64,11 @@ class FlappyFrank: SKScene{
         
         Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
         Frank.setScale(0.5)
+        Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
+        Frank.physicsBody?.affectedByGravity = true
+        Frank.physicsBody?.allowsRotation = false
+        addChild(Frank)
+        physicsWorld.gravity = CGVector(dx: 0, dy: -10)
         
         if(playing){
             Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
