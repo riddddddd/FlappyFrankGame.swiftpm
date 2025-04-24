@@ -19,7 +19,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     let Pipe = SKSpriteNode(imageNamed: "Pipe")
     
-    let background = SKSpriteNode(imageNamed: "Background")
+    let background = SKSpriteNode(imageNamed: "BackgroundImage")
     
     let Start = SKSpriteNode(color: .white, size: CGSize(width: 100, height: 100))
     
