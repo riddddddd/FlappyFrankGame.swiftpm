@@ -21,7 +21,6 @@ class FlappyFrank: SKScene{
     override func sceneDidLoad() {
         //sky
         self.backgroundColor = .cyan
-        
         //Frank
         //        self.addChild(Frank)
         //        Frank.position = CGPoint(x: 500, y: 500)
@@ -41,6 +40,9 @@ class FlappyFrank: SKScene{
         ceiling.physicsBody?.isDynamic = false
         addChild(ceiling)
         
+        
+        self.addChild(Start)
+
     }
         //Start Button
 //        self.addChild(Start)
@@ -58,7 +60,8 @@ class FlappyFrank: SKScene{
     override func didMove(to view: SKView) {
         
         backgroundColor = .cyan
-        Start.position = CGPoint(x: size.width/2 - 25, y: size.height / 4)
+        Start.position = CGPoint(x: size.width/2, y: size.height / 4)
+        Start.name = "start"
         
         
         
@@ -70,12 +73,12 @@ class FlappyFrank: SKScene{
         addChild(Frank)
         physicsWorld.gravity = CGVector(dx: 0, dy: -10)
         
-        if(playing){
+        if(!playing){
             Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
-            Frank.physicsBody?.affectedByGravity = true
+            Frank.physicsBody?.affectedByGravity = false
             Frank.physicsBody?.allowsRotation = false
             physicsWorld.gravity = CGVector(dx: 0, dy: -25)
-            Start.position = CGPoint(x: 10000, y: 10000)
+            Start.position = CGPoint(x: size.width/2, y: size.height / 4)
         }
     }
     func flap() {
@@ -86,13 +89,31 @@ class FlappyFrank: SKScene{
     func start(){
         Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
         playing = true
+        Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
+        Frank.physicsBody?.affectedByGravity = true
+        Frank.physicsBody?.allowsRotation = false
+        physicsWorld.gravity = CGVector(dx: 0, dy: -25)
+        Start.position = CGPoint(x: 10000, y: 10000)
         
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        flap()
-    }
-    
-    func button() {
+        for touch in touches{
+            if touch == touches.first{
+                enumerateChildNodes(withName: "//*", using: {(node, stop) in
+                    if node.name == "start" {
+                        if node.contains(touch.location(in: self)){
+                            self.start()
+                        }
+                    }
+                })
+            }
+        }
+        
+        if(playing){
+            flap()
+        }
+        
+        
         
     }
     
