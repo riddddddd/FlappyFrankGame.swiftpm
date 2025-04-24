@@ -41,8 +41,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Pipe.physicsBody?.categoryBitMask = PhysicsCategory.pipe
         Pipe.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         Pipe.physicsBody?.collisionBitMask = PhysicsCategory.frank
-
-       //Floor
+        
+        //Floor
         let floor = SKSpriteNode(color: .green, size: CGSize(width: 1000, height: 40))
         
         floor.position = CGPoint(x: size.width / 2, y: 20)
@@ -52,7 +52,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         floor.physicsBody?.categoryBitMask = PhysicsCategory.boundary
         floor.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         floor.physicsBody?.collisionBitMask = PhysicsCategory.frank
-
+        
         
         //Ceiling
         
@@ -64,14 +64,14 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         ceiling.physicsBody?.categoryBitMask = PhysicsCategory.boundary
         ceiling.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         ceiling.physicsBody?.collisionBitMask = PhysicsCategory.frank
-
+        
         
     }
-        //Start Button
-//        self.addChild(Start)
-//        Start.position = CGPoint(x: size.width/2 , y: size.height / 4)
-//        Start.name =
-//    }
+    //Start Button
+    //        self.addChild(Start)
+    //        Start.position = CGPoint(x: size.width/2 , y: size.height / 4)
+    //        Start.name =
+    //    }
     
     
     
@@ -83,7 +83,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
-
+        
         backgroundColor = .cyan
         Start.position = CGPoint(x: size.width/2 - 25, y: size.height / 4)
         
@@ -99,7 +99,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Frank.physicsBody?.categoryBitMask = PhysicsCategory.frank
         Frank.physicsBody?.contactTestBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
         Frank.physicsBody?.collisionBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
-
+        
         
         if(playing){
             Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
@@ -130,20 +130,20 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     nonisolated func didBegin(_ contact: SKPhysicsContact) {
         let a = contact.bodyA.categoryBitMask
         let b = contact.bodyB.categoryBitMask
-
+        
         if (a == PhysicsCategory.frank && b == PhysicsCategory.pipe) ||
-           (a == PhysicsCategory.pipe && b == PhysicsCategory.frank) {
+            (a == PhysicsCategory.pipe && b == PhysicsCategory.frank) {
             print("Frank hit a pipe")
-             
+            
         }
-
+        
         if (a == PhysicsCategory.frank && b == PhysicsCategory.boundary) ||
-           (a == PhysicsCategory.boundary && b == PhysicsCategory.frank) {
+            (a == PhysicsCategory.boundary && b == PhysicsCategory.frank) {
             print("Frank hit the floor or ceiling")
             
         }
     }
-
+    
     
 }
 

@@ -7,11 +7,7 @@ struct ContentView: View {
     @State private var highScore = UserDefaults.standard.integer(forKey: "HighScore")
     var body: some View {
         
-        ZStack{
-            Image("Background")
-                .resizable()
-                .ignoresSafeArea()
-        }
+        
         
         
         
@@ -26,16 +22,7 @@ struct ContentView: View {
             return scene
         }
         
-        Button(action: {
-            score = 0
-        }) {
-            Text("Reset")
-                .padding()
-                .background(Color.red)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-        }
-            }
+    }
     
 }
 
