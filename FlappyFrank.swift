@@ -69,6 +69,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         ceiling.physicsBody?.collisionBitMask = PhysicsCategory.frank
 
         
+        
+        self.addChild(Start)
+
     }
         //Start Button
 //        self.addChild(Start)
@@ -109,12 +112,12 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Frank.physicsBody?.collisionBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
 
         
-        if(playing){
+        if(!playing){
             Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
-            Frank.physicsBody?.affectedByGravity = true
+            Frank.physicsBody?.affectedByGravity = false
             Frank.physicsBody?.allowsRotation = false
             physicsWorld.gravity = CGVector(dx: 0, dy: -25)
-            Start.position = CGPoint(x: 10000, y: 10000)
+            Start.position = CGPoint(x: size.width/2, y: size.height / 4)
         }
     }
     func flap() {
@@ -125,14 +128,32 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     func start(){
         Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
         playing = true
+        Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
+        Frank.physicsBody?.affectedByGravity = true
+        Frank.physicsBody?.allowsRotation = false
+        physicsWorld.gravity = CGVector(dx: 0, dy: -25)
+        Start.position = CGPoint(x: 10000, y: 10000)
         
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        flap()
-    }
-    
-    func button() {
+        for touch in touches{
+            if touch == touches.first{
+                enumerateChildNodes(withName: "//*", using: {(node, stop) in
+                    if node.name == "start" {
+                        if node.contains(touch.location(in: self)){
+                            self.start()
+                        }
+                    }
+                })
+            }
+        }
+        
+        if(playing){
+            flap()
+        }
+        
+        
         
     }
     nonisolated func didBegin(_ contact: SKPhysicsContact) {
