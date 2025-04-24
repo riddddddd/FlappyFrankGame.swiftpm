@@ -80,7 +80,7 @@ class FlappyFrank: SKScene{
     }
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 200))
+        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
     }
     
     func start(){
