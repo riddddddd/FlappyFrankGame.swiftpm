@@ -19,6 +19,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     let Pipe = SKSpriteNode(imageNamed: "Pipe")
     
+    let background = SKSpriteNode(imageNamed: "Background")
+    
     let Start = SKSpriteNode(color: .white, size: CGSize(width: 100, height: 100))
     
     @State var playing = false
@@ -27,7 +29,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     override func sceneDidLoad() {
         //sky
-        self.backgroundColor = .cyan
+        
+      
+        
         //Frank
         //        self.addChild(Frank)
         //        Frank.position = CGPoint(x: 500, y: 500)
@@ -86,9 +90,13 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         physicsWorld.contactDelegate = self
 
-        backgroundColor = .cyan
-        Start.position = CGPoint(x: size.width/2, y: size.height / 4)
-        Start.name = "start"
+        background.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        background.zPosition = -1
+        background.size = self.size
+        addChild(background)
+        
+        
+        Start.position = CGPoint(x: size.width/2 - 25, y: size.height / 4)
         
         
         
