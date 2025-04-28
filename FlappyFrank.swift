@@ -23,7 +23,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     let Start = SKSpriteNode(color: .white, size: CGSize(width: 100, height: 100))
     
-    @State var playing = false
+    @State var playing = true
     
     
     
