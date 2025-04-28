@@ -46,7 +46,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Pipe.physicsBody?.collisionBitMask = PhysicsCategory.frank
         
         //Floor
-        let floor = SKSpriteNode(color: .green, size: CGSize(width: 1000, height: 40))
+        let floor = SKSpriteNode(color: .systemGreen, size: CGSize(width: 1000, height: 40))
         
         floor.position = CGPoint(x: size.width / 2, y: 20)
         floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
@@ -59,7 +59,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         //Ceiling
         
-        let ceiling = SKSpriteNode(color: .black, size: CGSize(width: 1000, height: 40))
+        let ceiling = SKSpriteNode(color: .clear, size: CGSize(width: 1000, height: 40))
         ceiling.position = CGPoint(x: size.width / 2, y: 950)
         ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
         ceiling.physicsBody?.isDynamic = false
@@ -112,13 +112,19 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Frank.physicsBody?.collisionBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
         
         
-        if(!playing){
-            Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
-            Frank.physicsBody?.affectedByGravity = false
-            Frank.physicsBody?.allowsRotation = false
-            physicsWorld.gravity = CGVector(dx: 0, dy: -25)
-            Start.position = CGPoint(x: size.width/2, y: size.height / 4)
-        }
+//        if(!playing){
+//            Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
+//            Frank.physicsBody?.affectedByGravity = false
+//            Frank.physicsBody?.allowsRotation = false
+//            physicsWorld.gravity = CGVector(dx: 0, dy: -25)
+//            Start.position = CGPoint(x: size.width/2, y: size.height / 4)
+//        }
+        // this version works better
+        if !playing {
+                Frank.physicsBody?.affectedByGravity = false
+                physicsWorld.gravity = CGVector(dx: 0, dy: -25)
+                Start.position = CGPoint(x: size.width/2, y: size.height / 4)
+            }
     }
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
@@ -127,13 +133,17 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     func start(){
         Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
-        playing = true
-        Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
-        Frank.physicsBody?.affectedByGravity = true
-        Frank.physicsBody?.allowsRotation = false
-        physicsWorld.gravity = CGVector(dx: 0, dy: -25)
-        Start.position = CGPoint(x: 10000, y: 10000)
-        
+            playing = true
+            
+            Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
+            Frank.physicsBody?.affectedByGravity = true
+            Frank.physicsBody?.allowsRotation = false
+            Frank.physicsBody?.categoryBitMask = PhysicsCategory.frank
+            Frank.physicsBody?.contactTestBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
+            Frank.physicsBody?.collisionBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
+
+            physicsWorld.gravity = CGVector(dx: 0, dy: -25)
+            Start.position = CGPoint(x: 10000, y: 10000)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
