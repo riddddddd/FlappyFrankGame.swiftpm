@@ -135,7 +135,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Frank.setScale(0.07)
         Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
         Frank.physicsBody?.affectedByGravity = true
-        Frank.physicsBody?.allowsRotation = false
+        Frank.physicsBody?.allowsRotation = true
         addChild(Frank)
         physicsWorld.gravity = CGVector(dx: 0, dy: -50)
         Frank.physicsBody?.categoryBitMask = PhysicsCategory.frank
@@ -152,6 +152,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 130))
+        Frank.physicsBody?.angularDamping = 20
+        Frank.zRotation = 45
+
+
     }
     
     func start(){
@@ -215,6 +219,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
 
             }
+
+        Frank.physicsBody?.angularVelocity += physicsWorld.gravity.dy/25
 
     }
     
