@@ -43,8 +43,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         //        Pipe.physicsBody?.collisionBitMask = PhysicsCategory.frank
         
         let floor = SKSpriteNode(imageNamed: "grass")
+        floor.setScale(0.5)
         floor.name = "floor"
-        floor.position = CGPoint(x: size.width / 2, y: 20)
+        floor.position = CGPoint(x: size.width / 2, y: -10)
         floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
         floor.physicsBody?.isDynamic = false
         addChild(floor)
@@ -53,14 +54,15 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         floor.physicsBody?.collisionBitMask = PhysicsCategory.frank
         
         
-        let moveFloor = SKAction.moveBy(x: -1479, y: 0, duration: 3.0)
-        let resetFloor = SKAction.moveBy(x: 1479, y: 0, duration: 0.0)
+        let moveFloor = SKAction.moveBy(x: -1479/2, y: 0, duration: 3.0)
+        let resetFloor = SKAction.moveBy(x: 1479/2, y: 0, duration: 0.0)
         let moveFloorForever = SKAction.repeatForever(SKAction.sequence([moveFloor, resetFloor]))
         
         
-        for i in 0..<2 {
+        for i in 0..<3 {
             let floor = SKSpriteNode(imageNamed: "grass")
-            floor.position = CGPoint(x: CGFloat(i) * 1478, y: 20)
+            floor.setScale(0.5)
+            floor.position = CGPoint(x: CGFloat(i) * 1478/2, y: -10)
             floor.zPosition = 1
             
             floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
@@ -153,14 +155,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         physicsWorld.gravity = CGVector(dx: 0, dy: -25)
         Start.position = CGPoint(x: 10000, y: 10000)
-        self.addChild(Pipe)
-        Pipe.position = CGPoint(x: 1000, y: 200)
-        Pipe.physicsBody = SKPhysicsBody(rectangleOf: Pipe.size)
-        Pipe.physicsBody?.isDynamic = false
-        Pipe.physicsBody?.categoryBitMask = PhysicsCategory.pipe
-        Pipe.physicsBody?.contactTestBitMask = PhysicsCategory.frank
-        Pipe.physicsBody?.collisionBitMask = PhysicsCategory.frank
-        Pipe.physicsBody?.velocity = CGVector(dx: -100, dy: 0)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
