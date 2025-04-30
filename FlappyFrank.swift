@@ -25,16 +25,12 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     var playing = false
     
+    var score = 0
     
+    var highscore = 0
     
     override func sceneDidLoad() {
-        //sky
-        
-        
-        
-        //Frank
-        //        self.addChild(Frank)
-        //        Frank.position = CGPoint(x: 500, y: 500)
+
         
         //Pipe
         self.addChild(Pipe)
@@ -116,7 +112,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Frank.physicsBody?.affectedByGravity = true
         Frank.physicsBody?.allowsRotation = false
         addChild(Frank)
-        physicsWorld.gravity = CGVector(dx: 0, dy: -10)
+        physicsWorld.gravity = CGVector(dx: 0, dy: -50)
         Frank.physicsBody?.categoryBitMask = PhysicsCategory.frank
         Frank.physicsBody?.contactTestBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
         Frank.physicsBody?.collisionBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
@@ -128,7 +124,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     }
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
+        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
     }
     
     func start(){
