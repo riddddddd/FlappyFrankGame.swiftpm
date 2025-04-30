@@ -80,15 +80,16 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         //Ceiling
         
-        let ceiling = SKSpriteNode(color: .clear, size: CGSize(width: 1000, height: 40))
-        ceiling.position = CGPoint(x: size.width / 2, y: 950)
-        ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
-        ceiling.physicsBody?.isDynamic = false
-        addChild(ceiling)
-        ceiling.physicsBody?.categoryBitMask = PhysicsCategory.boundary
-        ceiling.physicsBody?.contactTestBitMask = PhysicsCategory.frank
-        ceiling.physicsBody?.collisionBitMask = PhysicsCategory.frank
-        ceiling.name = "ceiling"
+//        let ceiling = SKSpriteNode(color: .black, size: CGSize(width: 1000, height: 40))
+//        ceiling.position = CGPoint(x: size.width / 2, y: 950)
+//        
+//        ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
+//        ceiling.physicsBody?.isDynamic = false
+//        addChild(ceiling)
+//        ceiling.physicsBody?.categoryBitMask = PhysicsCategory.boundary
+//        ceiling.physicsBody?.contactTestBitMask = PhysicsCategory.frank
+//        ceiling.physicsBody?.collisionBitMask = PhysicsCategory.frank
+//        ceiling.name = "ceiling"
         
         self.addChild(Start)
         Start.name = "start"
@@ -107,13 +108,25 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         
+        //ceiling
+        let ceiling = SKSpriteNode(color: .clear, size: CGSize(width: size.width, height: 40))
+        ceiling.position = CGPoint(x: size.width / 2, y: size.height - ceiling.size.height / 2 + 60)
+        ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
+        ceiling.physicsBody?.isDynamic = false
+        ceiling.physicsBody?.categoryBitMask = PhysicsCategory.boundary
+        ceiling.physicsBody?.contactTestBitMask = PhysicsCategory.frank
+        ceiling.physicsBody?.collisionBitMask = PhysicsCategory.frank
+        ceiling.name = "ceiling"
+        addChild(ceiling)
+        
         background.position = CGPoint(x: size.width / 2, y: size.height / 2)
         background.zPosition = -1
         background.size = self.size
         addChild(background)
         
         
-        Start.position = CGPoint(x: size.width/2 - 25, y: size.height / 4)
+        Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
+
         
         
         
@@ -137,7 +150,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     }
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
+        Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 130))
     }
     
     func start(){
@@ -197,7 +210,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                 Frank.physicsBody?.velocity = .zero
                 Frank.physicsBody?.angularVelocity = 0
                 Frank.zRotation = 0
-            Start.position = CGPoint(x: size.width/2 - 25, y: size.height / 4)
+            Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
+
             }
 
     }
