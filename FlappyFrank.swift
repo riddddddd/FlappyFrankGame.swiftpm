@@ -200,10 +200,11 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             }
         }
         if wasPlaying && !playing {
-                Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
+            Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 1.8)
                 Frank.physicsBody?.velocity = .zero
                 Frank.physicsBody?.angularVelocity = 0
                 Frank.zRotation = 0
+            Start.position = CGPoint(x: size.width/2 - 25, y: size.height / 4)
             }
 
     }
