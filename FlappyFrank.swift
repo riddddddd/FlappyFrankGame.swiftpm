@@ -12,7 +12,7 @@ struct PhysicsCategory {
     static let pipe: UInt32 = 0x1 << 1
     static let boundary: UInt32 = 0x1 << 2
 }
-
+@MainActor
 class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     let Frank = SKSpriteNode(imageNamed: "Frank")
@@ -24,10 +24,11 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     let Start = SKSpriteNode(imageNamed: "start")
     
     var playing = false
-    
+    var wasPlaying = true
     var score = 0
     
     var highscore = 0
+    
     
     override func sceneDidLoad() {
         
@@ -41,7 +42,17 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         //        Pipe.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         //        Pipe.physicsBody?.collisionBitMask = PhysicsCategory.frank
         
-        //Floor
+        let floor = SKSpriteNode(color: .systemGreen, size: CGSize(width: 1000, height: 40))
+        floor.name = "floor"
+        floor.position = CGPoint(x: size.width / 2, y: 20)
+        floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
+        floor.physicsBody?.isDynamic = false
+        addChild(floor)
+        floor.physicsBody?.categoryBitMask = PhysicsCategory.boundary
+        floor.physicsBody?.contactTestBitMask = PhysicsCategory.frank
+        floor.physicsBody?.collisionBitMask = PhysicsCategory.frank
+        
+        
         let moveFloor = SKAction.moveBy(x: -1000, y: 0, duration: 2.0)
         let resetFloor = SKAction.moveBy(x: 1000, y: 0, duration: 0.0)
         let moveFloorForever = SKAction.repeatForever(SKAction.sequence([moveFloor, resetFloor]))
@@ -76,12 +87,12 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         ceiling.physicsBody?.categoryBitMask = PhysicsCategory.boundary
         ceiling.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         ceiling.physicsBody?.collisionBitMask = PhysicsCategory.frank
-        
-        
+        ceiling.name = "ceiling"
         
         self.addChild(Start)
         Start.name = "start"
         Start.setScale(0.1)
+        
     }
     
     
@@ -93,8 +104,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     
     override func didMove(to view: SKView) {
-        
-        physicsWorld.contactDelegate = self
+        self.physicsWorld.contactDelegate = self
         
         background.position = CGPoint(x: size.width / 2, y: size.height / 2)
         background.zPosition = -1
@@ -120,6 +130,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         if !playing {
             Frank.physicsBody?.affectedByGravity = false
+            physicsWorld.gravity = CGVector(dx: 0, dy: -25)
+            Start.position = CGPoint(x: size.width/2, y: size.height / 4)
         }
     }
     func flap() {
@@ -132,8 +144,12 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         playing = true
         print("playing = true")
         
+        Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
         Frank.physicsBody?.affectedByGravity = true
-        
+        Frank.physicsBody?.allowsRotation = false
+        Frank.physicsBody?.categoryBitMask = PhysicsCategory.frank
+        Frank.physicsBody?.contactTestBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
+        Frank.physicsBody?.collisionBitMask = PhysicsCategory.pipe | PhysicsCategory.boundary
         
         physicsWorld.gravity = CGVector(dx: 0, dy: -25)
         Start.position = CGPoint(x: 10000, y: 10000)
@@ -167,23 +183,29 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         
     }
-    nonisolated func didBegin(_ contact: SKPhysicsContact) {
-        let a = contact.bodyA.categoryBitMask
-        let b = contact.bodyB.categoryBitMask
-        
-        if (a == PhysicsCategory.frank && b == PhysicsCategory.pipe) ||
-            (a == PhysicsCategory.pipe && b == PhysicsCategory.frank) {
-            print("Frank hit a pipe")
-            
+    
+    
+    override func update(_ currentTime: TimeInterval) {
+        if Frank.frame.intersects(Pipe.frame) {
+            print("Frank collided with a pipe")
+            playing = false
         }
         
-        if (a == PhysicsCategory.frank && b == PhysicsCategory.boundary) ||
-            (a == PhysicsCategory.boundary && b == PhysicsCategory.frank) {
-            print("Frank hit the floor or ceiling")
-            
+        for node in self.children {
+            if node.name == "floor" || node.name == "ceiling" {
+                if Frank.frame.intersects(node.frame) {
+                    print("Frank hit the floor or ceiling")
+                    playing = false
+                }
+            }
         }
+        if wasPlaying && !playing {
+                Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
+                Frank.physicsBody?.velocity = .zero
+                Frank.physicsBody?.angularVelocity = 0
+                Frank.zRotation = 0
+            }
+
     }
     
-    
 }
-
