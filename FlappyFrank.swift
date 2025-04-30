@@ -42,7 +42,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         //        Pipe.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         //        Pipe.physicsBody?.collisionBitMask = PhysicsCategory.frank
         
-        let floor = SKSpriteNode(color: .systemGreen, size: CGSize(width: 1000, height: 40))
+        let floor = SKSpriteNode(imageNamed: "grass")
         floor.name = "floor"
         floor.position = CGPoint(x: size.width / 2, y: 20)
         floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
@@ -53,14 +53,14 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         floor.physicsBody?.collisionBitMask = PhysicsCategory.frank
         
         
-        let moveFloor = SKAction.moveBy(x: -1000, y: 0, duration: 2.0)
-        let resetFloor = SKAction.moveBy(x: 1000, y: 0, duration: 0.0)
+        let moveFloor = SKAction.moveBy(x: -1479, y: 0, duration: 3.0)
+        let resetFloor = SKAction.moveBy(x: 1479, y: 0, duration: 0.0)
         let moveFloorForever = SKAction.repeatForever(SKAction.sequence([moveFloor, resetFloor]))
         
         
         for i in 0..<2 {
-            let floor = SKSpriteNode(color: .systemGreen, size: CGSize(width: 1000, height: 40))
-            floor.position = CGPoint(x: CGFloat(i) * 1000, y: 20)
+            let floor = SKSpriteNode(imageNamed: "grass")
+            floor.position = CGPoint(x: CGFloat(i) * 1478, y: 20)
             floor.zPosition = 1
             
             floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
