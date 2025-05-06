@@ -55,8 +55,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var score = 0
     
     
-    var highscore = 0
-    
+    @AppStorage("HighScore") private var HighScore = 0
+
  
     
     
