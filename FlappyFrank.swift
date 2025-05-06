@@ -11,10 +11,39 @@ struct PhysicsCategory {
     static let frank: UInt32 = 0x1 << 0
     static let pipe: UInt32 = 0x1 << 1
     static let boundary: UInt32 = 0x1 << 2
+  
+}
+
+struct GameView: View {
+    @State var showCollisionAlert = false
+    
+    var scene: FlappyFrank {
+        let scene = FlappyFrank(size: CGSize(width: 300, height: 600), showAlert: $showCollisionAlert)
+        scene.scaleMode = .resizeFill
+        return scene
+    }
+    var body: some View {
+        SpriteView(scene: scene)
+            .ignoresSafeArea()
+            .alert("Game Over", isPresented: $showCollisionAlert) {
+                Button("OK", role: .cancel) {}
+            }
+    }
 }
 
 @MainActor
+ 
 class FlappyFrank: SKScene, SKPhysicsContactDelegate{
+    
+    init(size: CGSize, showAlert: Binding<Bool>) {
+        self._showAlert = showAlert
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    @Binding var showAlert: Bool
     
     let Frank = SKSpriteNode(imageNamed: "Frank")
     let Pipe = SKSpriteNode(imageNamed: "Pipe")
@@ -24,7 +53,13 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var playing = false
     var wasPlaying = true
     var score = 0
+    
+    
     var highscore = 0
+    
+ 
+    
+    
     
     override func sceneDidLoad() {
         let floor = SKSpriteNode(imageNamed: "grass")
@@ -210,6 +245,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                     playing = false
                     break
                 }
+                   
             }
         }
 
