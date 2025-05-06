@@ -11,9 +11,38 @@ struct PhysicsCategory {
     static let frank: UInt32 = 0x1 << 0
     static let pipe: UInt32 = 0x1 << 1
     static let boundary: UInt32 = 0x1 << 2
+  
+}
+
+struct GameView: View {
+    @State var showCollisionAlert = false
+    
+    var scene: FlappyFrank {
+        let scene = FlappyFrank(size: CGSize(width: 300, height: 600), showAlert: $showCollisionAlert)
+        scene.scaleMode = .resizeFill
+        return scene
+    }
+    var body: some View {
+        SpriteView(scene: scene)
+            .ignoresSafeArea()
+            .alert("Game Over", isPresented: $showCollisionAlert) {
+                Button("OK", role: .cancel) {}
+            }
+    }
 }
 @MainActor
+ 
 class FlappyFrank: SKScene, SKPhysicsContactDelegate{
+    
+    init(size: CGSize, showAlert: Binding<Bool>) {
+        self._showAlert = showAlert
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    @Binding var showAlert: Bool
     
     let Frank = SKSpriteNode(imageNamed: "Frank")
     
@@ -27,7 +56,11 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var wasPlaying = true
     var score = 0
     
+    
     var highscore = 0
+    
+ 
+    
     
     
     override func sceneDidLoad() {
@@ -201,6 +234,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         if Frank.frame.intersects(Pipe.frame) {
             print("Frank collided with a pipe")
             playing = false
+            showAlert = true
         }
         
         for node in self.children {
@@ -208,7 +242,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                 if Frank.frame.intersects(node.frame) {
                     print("Frank hit the floor or ceiling")
                     playing = false
+                    showAlert = true
+                       
                 }
+                   
             }
         }
         if wasPlaying && !playing {
@@ -221,6 +258,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             }
 
         Frank.physicsBody?.angularVelocity += physicsWorld.gravity.dy/25
+        
+        
+        
+        
 
     }
     
