@@ -81,7 +81,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             let floor = SKSpriteNode(imageNamed: "grass")
             floor.setScale(0.5)
             floor.position = CGPoint(x: CGFloat(i) * 1478/2, y: -10)
-            floor.zPosition = 1
+            floor.zPosition = 5
             floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
             floor.physicsBody?.isDynamic = false
             floor.physicsBody?.categoryBitMask = PhysicsCategory.boundary
