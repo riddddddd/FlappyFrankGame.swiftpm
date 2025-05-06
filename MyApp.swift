@@ -2,9 +2,26 @@ import SwiftUI
 
 @main
 struct MyApp: App {
+    
+    @AppStorage("Onboarded") private var Onboarded = false
+    
     var body: some Scene {
+        
         WindowGroup {
-            ContentView()
+            if Onboarded{
+                
+                ContentView()
+
+                
+            }else{
+                
+                Onboard()
+                
+            }
+
+            
+            
+            
         }
     }
 }
