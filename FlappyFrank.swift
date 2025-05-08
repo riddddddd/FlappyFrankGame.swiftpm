@@ -25,6 +25,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     let background = SKSpriteNode(imageNamed: "BackgroundImage")
     let Start = SKSpriteNode(imageNamed: "start")
     let scoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
+    let highscoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
+    let OtherscoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
     var playing = false
     var wasPlaying = true
     var score = 0
@@ -125,8 +127,19 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         scoreLabel.fontColor = .white
         scoreLabel.position = CGPoint(x: size.width / 2, y: size.height - 170)
         scoreLabel.zPosition = 10
-        scoreLabel.text = "0"
+        
         addChild(scoreLabel)
+        
+        highscoreLabel.fontSize = 30
+        highscoreLabel.fontColor = .black
+        highscoreLabel.position = CGPoint(x: size.width / 2, y: size.height - 550)
+        highscoreLabel.zPosition = 10
+        highscoreLabel.text = "Highscore: \(highscore)"
+        addChild(highscoreLabel)
+        
+        scoreLabel.isHidden = true
+        highscoreLabel.isHidden = true
+
 
     }
     
@@ -153,7 +166,14 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         Start.position = CGPoint(x: 10000, y: 10000)
         
         score = 0
+        
+        passedPipes.removeAll()
+        scoreLabel.isHidden = false
+        highscoreLabel.isHidden = true
+        score = 0
         scoreLabel.text = "0"
+        scoreLabel.isHidden = false
+        highscoreLabel.isHidden = true
         passedPipes.removeAll()
 
     }
@@ -260,6 +280,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             self.children.filter { $0.name == "pipe" }.forEach { $0.removeFromParent() }
             
             Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
+            
+            scoreLabel.isHidden = false
+               highscoreLabel.isHidden = false
+               highscoreLabel.text = "Highscore: \(HighScore)"
         }
         
         wasPlaying = playing
@@ -272,6 +296,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                     score += 1
                     scoreLabel.text = "\(score)"
                     pipe.userData?["scored"] = true
+                }
+                if highscore < score{
+                    highscore = score
                 }
             }
         }

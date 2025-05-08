@@ -17,7 +17,7 @@ struct ContentView: View {
                 .ignoresSafeArea()
         }
         var scene: SKScene {
-            let scene = FlappyFrank(size: CGSize(width: 700, height: 1000), showAlert: $boolthing)
+            let scene = FlappyFrank()
             scene.size = CGSize(width: 200, height: 400)
             scene.scaleMode = .resizeFill
             return scene
