@@ -243,6 +243,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                 if Frank.frame.intersects(node.frame) {
                     print("Frank touched something")
                     playing = false
+                    if(HighScore < score){
+                        HighScore = score
+                    }
                     break
                 }
                    
