@@ -177,7 +177,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     }
     
     func spawnPipes() {
-        let pipeGap: CGFloat = 240
+        let pipeGap: CGFloat = CGFloat.random(in: 240...290)
         let pipeWidth: CGFloat = 75
         
         let bottomTexture = SKTexture(imageNamed: "bottomPipe")
