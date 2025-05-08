@@ -34,6 +34,11 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     
     
+    @AppStorage("HighScore") private var HighScore = 0
+
+ 
+    
+    
     
     override func sceneDidLoad() {
         let floor = SKSpriteNode(imageNamed: "grass")
@@ -55,7 +60,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             let floor = SKSpriteNode(imageNamed: "grass")
             floor.setScale(0.5)
             floor.position = CGPoint(x: CGFloat(i) * 1478/2, y: -10)
-            floor.zPosition = 1
+            floor.zPosition = 5
             floor.physicsBody = SKPhysicsBody(rectangleOf: floor.size)
             floor.physicsBody?.isDynamic = false
             floor.physicsBody?.categoryBitMask = PhysicsCategory.boundary
@@ -234,6 +239,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                 if Frank.frame.intersects(node.frame) {
                     print("Frank touched something")
                     playing = false
+                    if(HighScore < score){
+                        HighScore = score
+                    }
                     break
                 }
                 
