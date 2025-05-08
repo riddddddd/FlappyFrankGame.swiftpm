@@ -11,53 +11,27 @@ struct PhysicsCategory {
     static let frank: UInt32 = 0x1 << 0
     static let pipe: UInt32 = 0x1 << 1
     static let boundary: UInt32 = 0x1 << 2
-  
+    
 }
 
-struct GameView: View {
-    @State var showCollisionAlert = false
-    
-    var scene: FlappyFrank {
-        let scene = FlappyFrank(size: CGSize(width: 300, height: 600), showAlert: $showCollisionAlert)
-        scene.scaleMode = .resizeFill
-        return scene
-    }
-    var body: some View {
-        SpriteView(scene: scene)
-            .ignoresSafeArea()
-            .alert("Game Over", isPresented: $showCollisionAlert) {
-                Button("OK", role: .cancel) {}
-            }
-    }
-}
 
 @MainActor
- 
+
 class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
-    init(size: CGSize, showAlert: Binding<Bool>) {
-        self._showAlert = showAlert
-        super.init(size: size)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    @Binding var showAlert: Bool
     
     let Frank = SKSpriteNode(imageNamed: "Frank")
     let Pipe = SKSpriteNode(imageNamed: "Pipe")
     let background = SKSpriteNode(imageNamed: "BackgroundImage")
     let Start = SKSpriteNode(imageNamed: "start")
-    
+    let scoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
     var playing = false
     var wasPlaying = true
     var score = 0
-    
-    
+    var passedPipes: [SKNode] = []
     var highscore = 0
     
- 
+    
     
     
     
@@ -141,8 +115,16 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         let delay = SKAction.wait(forDuration: 2.5)
         let spawnForever = SKAction.repeatForever(SKAction.sequence([spawn, delay]))
         self.run(spawnForever)
-    }
+        
+        scoreLabel.fontSize = 100
+        scoreLabel.fontColor = .white
+        scoreLabel.position = CGPoint(x: size.width / 2, y: size.height - 170)
+        scoreLabel.zPosition = 10
+        scoreLabel.text = "0"
+        addChild(scoreLabel)
 
+    }
+    
     func flap() {
         Frank.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         Frank.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 125))
@@ -164,6 +146,11 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         physicsWorld.gravity = CGVector(dx: 0, dy: -25)
         Start.position = CGPoint(x: 10000, y: 10000)
+        
+        score = 0
+        scoreLabel.text = "0"
+        passedPipes.removeAll()
+
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -185,16 +172,16 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     }
     
     func spawnPipes() {
-        let pipeGap: CGFloat = 250
+        let pipeGap: CGFloat = 240
         let pipeWidth: CGFloat = 75
-
+        
         let bottomTexture = SKTexture(imageNamed: "bottomPipe")
         let topTexture = SKTexture(imageNamed: "topPipe")
-
+        
         let maxY = size.height - pipeGap / 2 - 100
         let minY = pipeGap / 2 + 100
         let gapCenterY = CGFloat.random(in: minY...maxY)
-
+        
         // Bottom pipe
         let bottomHeight = gapCenterY - pipeGap / 2
         let bottomPipe = SKSpriteNode(texture: bottomTexture)
@@ -208,7 +195,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         bottomPipe.physicsBody?.categoryBitMask = PhysicsCategory.pipe
         bottomPipe.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         bottomPipe.physicsBody?.collisionBitMask = PhysicsCategory.frank | PhysicsCategory.boundary
-
+        
         // Top pipe
         let topHeight = size.height - gapCenterY - pipeGap / 2
         let topPipe = SKSpriteNode(texture: topTexture)
@@ -222,22 +209,26 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         topPipe.physicsBody?.categoryBitMask = PhysicsCategory.pipe
         topPipe.physicsBody?.contactTestBitMask = PhysicsCategory.frank
         topPipe.physicsBody?.collisionBitMask = PhysicsCategory.frank | PhysicsCategory.boundary
-
+        
         // Move pipes
         let movePipes = SKAction.moveBy(x: -size.width - 500, y: 0, duration: 4.0)
         let removePipes = SKAction.removeFromParent()
         let pipeSequence = SKAction.sequence([movePipes, removePipes])
-
+        
         bottomPipe.run(pipeSequence)
         topPipe.run(pipeSequence)
         
         addChild(bottomPipe)
         addChild(topPipe)
-    }
+        
+        bottomPipe.userData = ["scored": false]
+        passedPipes.append(bottomPipe)
 
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         if !playing { return }
-
+        
         for node in self.children {
             if node.name == "floor" || node.name == "ceiling" || node.name == "pipe" {
                 if Frank.frame.intersects(node.frame) {
@@ -245,26 +236,37 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                     playing = false
                     break
                 }
-                   
+                
             }
         }
-
-       
+        
+        
         if wasPlaying && !playing {
             Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 1.8)
             Frank.physicsBody?.affectedByGravity = false
             Frank.physicsBody?.velocity = .zero
             Frank.physicsBody?.angularVelocity = 0
             Frank.zRotation = 0
-
-          
+            
+            
             self.children.filter { $0.name == "pipe" }.forEach { $0.removeFromParent() }
-
+            
             Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
         }
-
+        
         wasPlaying = playing
-
+        
         Frank.physicsBody?.angularVelocity += physicsWorld.gravity.dy / 25
+        
+        for pipe in passedPipes {
+            if let scored = pipe.userData?["scored"] as? Bool, !scored {
+                if pipe.position.x + pipe.frame.width / 2 < Frank.position.x {
+                    score += 1
+                    scoreLabel.text = "\(score)"
+                    pipe.userData?["scored"] = true
+                }
+            }
+        }
+
     }
 }
