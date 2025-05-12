@@ -86,7 +86,7 @@ struct V2: View {
             VStack{
                 Text("Dodge Obstacles!")
                     .font(.title)
-                Image("Pipe")
+                Image("bottomPipe")
                     
             }
             .foregroundStyle(.white)
