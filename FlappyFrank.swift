@@ -27,6 +27,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     let scoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
     let highscoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
     let OtherscoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
+    let gameOverLabel = SKLabelNode(fontNamed: "Courier-Bold")
     var playing = false
     var wasPlaying = true
     var score = 0
@@ -140,6 +141,14 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         scoreLabel.isHidden = true
         highscoreLabel.isHidden = true
 
+        
+        gameOverLabel.fontSize = 80
+        gameOverLabel.fontColor = .red
+        gameOverLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        gameOverLabel.zPosition = 20
+        gameOverLabel.text = "Game Over"
+        gameOverLabel.isHidden = true
+        addChild(gameOverLabel)
 
     }
     
@@ -175,6 +184,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         scoreLabel.isHidden = false
         highscoreLabel.isHidden = true
         passedPipes.removeAll()
+        
+        gameOverLabel.isHidden = true
 
     }
     
@@ -284,6 +295,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             scoreLabel.isHidden = false
                highscoreLabel.isHidden = false
                highscoreLabel.text = "Highscore: \(HighScore)"
+            
+            gameOverLabel.isHidden = false
         }
         
         wasPlaying = playing
