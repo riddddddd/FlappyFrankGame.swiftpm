@@ -131,7 +131,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         addChild(scoreLabel)
         
-        highscoreLabel.fontSize = 30
+        highscoreLabel.fontSize = 35
         highscoreLabel.fontColor = .black
         highscoreLabel.position = CGPoint(x: size.width / 2, y: size.height - 550)
         highscoreLabel.zPosition = 10
