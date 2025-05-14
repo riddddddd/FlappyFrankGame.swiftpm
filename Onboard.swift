@@ -46,12 +46,14 @@ struct V3: View {
             VStack{
                 Text("Fly as far as you can!")
                     .font(.title)
-                Image("start")
-                    .resizable()
-                    .frame(width: 1990/6, height: 940/6)
-                    .onTapGesture{
-                        Onboarded = true
-                    }
+                Button{
+                    Onboarded = true
+                }label: {
+                    Image("start")
+                        .resizable()
+                }
+                .padding()
+                .frame(width: 400, height: 200)
             }
             .foregroundStyle(.white)
         }.frame(width: 300, height: 300)

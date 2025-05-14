@@ -142,7 +142,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         highscoreLabel.isHidden = true
 
         
-        gameOverLabel.fontSize = 70
+        gameOverLabel.fontSize = 65
         gameOverLabel.fontColor = .red
         gameOverLabel.position = CGPoint(x: size.width / 2, y: size.height * 0.7)
         gameOverLabel.zPosition = 30
