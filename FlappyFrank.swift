@@ -34,12 +34,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var passedPipes: [SKNode] = []
     var highscore = 0
     
-    
-    
-    
     @AppStorage("HighScore") private var HighScore = 0
-
- 
+    
+    
     
     
     
@@ -140,7 +137,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         scoreLabel.isHidden = true
         highscoreLabel.isHidden = true
-
+        
         
         gameOverLabel.fontSize = 65
         gameOverLabel.fontColor = .red
@@ -149,7 +146,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         gameOverLabel.text = "GAME OVER"
         gameOverLabel.isHidden = true
         addChild(gameOverLabel)
-
+        
     }
     
     func flap() {
@@ -186,7 +183,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         passedPipes.removeAll()
         
         gameOverLabel.isHidden = true
-
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -259,7 +256,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         bottomPipe.userData = ["scored": false]
         passedPipes.append(bottomPipe)
-
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -293,8 +290,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
             
             scoreLabel.isHidden = false
-               highscoreLabel.isHidden = false
-               highscoreLabel.text = "Highscore: \(HighScore)"
+            highscoreLabel.isHidden = false
+            highscoreLabel.text = "Highscore: \(HighScore)"
             
             gameOverLabel.isHidden = false
         }
@@ -315,6 +312,6 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                 }
             }
         }
-
+        
     }
 }
