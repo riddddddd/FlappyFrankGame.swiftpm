@@ -8,13 +8,13 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "FlappyFrankGame",
+    name: "Flappy Frank",
     platforms: [
         .iOS("16.0")
     ],
     products: [
         .iOSApplication(
-            name: "FlappyFrankGame",
+            name: "Flappy Frank",
             targets: ["AppModule"],
             bundleIdentifier: "org.jhhs.625385.FlappyFrankGame",
             displayVersion: "1.0",
