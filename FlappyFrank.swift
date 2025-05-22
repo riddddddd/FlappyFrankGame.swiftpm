@@ -34,6 +34,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var passedPipes: [SKNode] = []
     var highscore = 0
     
+    let pauseButton = SKSpriteNode(imageNamed: "pause")
+    var isPausedManually = false
     
     
     
@@ -149,6 +151,14 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         gameOverLabel.text = "GAME OVER"
         gameOverLabel.isHidden = true
         addChild(gameOverLabel)
+        
+        
+        pauseButton.name = "pauseButton"
+        pauseButton.setScale(0.15)
+        pauseButton.position = CGPoint(x: size.width - 60, y: size.height - 60)
+        pauseButton.zPosition = 20
+        addChild(pauseButton)
+        
 
     }
     
@@ -192,10 +202,21 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches{
             if touch == touches.first{
-                enumerateChildNodes(withName: "//*", using: {(node, stop) in
+                enumerateChildNodes(withName: "//*", using: { [self](node, stop) in
                     if node.name == "start" {
                         if node.contains(touch.location(in: self)){
                             self.start()
+                            
+                            
+                            let location = touch.location(in: self)
+                            if pauseButton.contains(location) {
+                                self.isPausedManually.toggle()
+                                self.isPaused = isPausedManually
+                                self.pauseButton.texture = SKTexture(imageNamed: isPausedManually ? "play" : "Pause")
+                                return
+                            }
+                            
+                            
                         }
                     }
                 })
