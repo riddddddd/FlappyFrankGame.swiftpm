@@ -9,15 +9,23 @@ import SwiftUI
 struct Onboard: View {
     
     @AppStorage("Onboarded") private var Onboarded = false
+    @State private var float = false
     
     var body: some View {
         VStack{
             Text("Flappy Frank")
-                .font(.custom("", size: 60))
+                .font(.custom("PixelFontName", size: 60))
+                .shadow(color: .black.opacity(0.4), radius: 5, x: 0, y: 4)
+                .padding(.top, 40)
             Image("Frank")
                 .resizable()
                 .frame(width: 902/5, height: 636/5)
                 .padding()
+                .offset(y: float ? -10: 10)
+                .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: float)
+                .onAppear {
+                    float = true
+                }
             TabView{
                 V1()
                 V2()
@@ -46,12 +54,14 @@ struct V3: View {
             VStack{
                 Text("Fly as far as you can!")
                     .font(.title)
-                Image("start")
-                    .resizable()
-                    .frame(width: 1990/6, height: 940/6)
-                    .onTapGesture{
-                        Onboarded = true
-                    }
+                Button{
+                    Onboarded = true
+                }label: {
+                    Image("start")
+                        .resizable()
+                }
+                .padding()
+                .frame(width: 400, height: 200)
             }
             .foregroundStyle(.white)
         }.frame(width: 300, height: 300)

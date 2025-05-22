@@ -34,14 +34,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var passedPipes: [SKNode] = []
     var highscore = 0
     
-    let pauseButton = SKSpriteNode(imageNamed: "pause")
-    var isPausedManually = false
-    
-    
-    
     @AppStorage("HighScore") private var HighScore = 0
-
- 
+    
+    
     
     
     
@@ -82,6 +77,13 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
+        
+        
+        let cameraNode = SKCameraNode()
+        self.camera = cameraNode
+        cameraNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        addChild(cameraNode)
+
         
         let ceiling = SKSpriteNode(color: .clear, size: CGSize(width: size.width, height: 40))
         ceiling.position = CGPoint(x: size.width / 2, y: size.height - ceiling.size.height / 2 + 60)
@@ -142,9 +144,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         scoreLabel.isHidden = true
         highscoreLabel.isHidden = true
-
         
-        gameOverLabel.fontSize = 70
+        
+        gameOverLabel.fontSize = 65
         gameOverLabel.fontColor = .red
         gameOverLabel.position = CGPoint(x: size.width / 2, y: size.height * 0.7)
         gameOverLabel.zPosition = 30
@@ -152,14 +154,6 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         gameOverLabel.isHidden = true
         addChild(gameOverLabel)
         
-        
-        pauseButton.name = "pauseButton"
-        pauseButton.setScale(0.15)
-        pauseButton.position = CGPoint(x: size.width - 60, y: size.height - 60)
-        pauseButton.zPosition = 20
-        addChild(pauseButton)
-        
-
     }
     
     func flap() {
@@ -196,27 +190,16 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         passedPipes.removeAll()
         
         gameOverLabel.isHidden = true
-
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches{
             if touch == touches.first{
-                enumerateChildNodes(withName: "//*", using: { [self](node, stop) in
+                enumerateChildNodes(withName: "//*", using: {(node, stop) in
                     if node.name == "start" {
                         if node.contains(touch.location(in: self)){
                             self.start()
-                            
-                            
-                            let location = touch.location(in: self)
-                            if pauseButton.contains(location) {
-                                self.isPausedManually.toggle()
-                                self.isPaused = isPausedManually
-                                self.pauseButton.texture = SKTexture(imageNamed: isPausedManually ? "play" : "Pause")
-                                return
-                            }
-                            
-                            
                         }
                     }
                 })
@@ -280,7 +263,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         bottomPipe.userData = ["scored": false]
         passedPipes.append(bottomPipe)
-
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -294,12 +277,25 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                     if(HighScore < score){
                         HighScore = score
                     }
+                    shakeScreen()
                     break
                 }
                 
             }
         }
         
+
+        
+        func shakeScreen() {
+            if let camera = self.camera {
+                let moveRight = SKAction.moveBy(x: 10, y: 0, duration: 0.03)
+                let moveLeft = SKAction.moveBy(x: -10, y: 0, duration: 0.03)
+                let shake = SKAction.sequence([moveRight, moveLeft, moveLeft, moveRight])
+                camera.run(shake)
+            }
+        }
+
+
         
         if wasPlaying && !playing {
             Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 1.8)
@@ -314,8 +310,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
             
             scoreLabel.isHidden = false
-               highscoreLabel.isHidden = false
-               highscoreLabel.text = "Highscore: \(HighScore)"
+            highscoreLabel.isHidden = false
+            highscoreLabel.text = "Highscore: \(HighScore)"
             
             gameOverLabel.isHidden = false
         }
@@ -336,6 +332,6 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                 }
             }
         }
-
+        
     }
 }
