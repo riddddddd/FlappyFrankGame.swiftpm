@@ -46,11 +46,15 @@ struct Onboard: View {
 }
 struct V3: View {
     @AppStorage("Onboarded") private var Onboarded = false
-
+@State private var pressed = false
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
                 .fill(.cyan.gradient)
+                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 8)
+                .overlay(RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                         )
             VStack{
                 Text("Fly as far as you can!")
                     .font(.title)
@@ -59,6 +63,11 @@ struct V3: View {
                 }label: {
                     Image("start")
                         .resizable()
+                        .scaledToFit()
+                        .frame(width: 200, height: 100)
+                        .shadow(radius: 10)
+                        .scaleEffect(pressed ? 0.95 : 1.0)
+                        .animation(.spring(), value: pressed)
                 }
                 .padding()
                 .frame(width: 400, height: 200)
@@ -72,9 +81,14 @@ struct V1: View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
                 .fill(.cyan.gradient)
+                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 8)
+                .overlay(RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                         )
             VStack{
                 Text("Tap to jump")
                     .font(.title)
+                    .bold()
                 HStack{
                     Image("Frank")
                         .resizable()
@@ -93,6 +107,10 @@ struct V2: View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
                 .fill(.cyan.gradient)
+                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 8)
+                .overlay(RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                         )
             VStack{
                 Text("Dodge Obstacles!")
                     .font(.title)
