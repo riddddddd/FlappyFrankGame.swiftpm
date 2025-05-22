@@ -78,6 +78,13 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         
+        
+        let cameraNode = SKCameraNode()
+        self.camera = cameraNode
+        cameraNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        addChild(cameraNode)
+
+        
         let ceiling = SKSpriteNode(color: .clear, size: CGSize(width: size.width, height: 40))
         ceiling.position = CGPoint(x: size.width / 2, y: size.height - ceiling.size.height / 2 + 60)
         ceiling.physicsBody = SKPhysicsBody(rectangleOf: ceiling.size)
@@ -270,12 +277,25 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                     if(HighScore < score){
                         HighScore = score
                     }
+                    shakeScreen()
                     break
                 }
                 
             }
         }
         
+
+        
+        func shakeScreen() {
+            if let camera = self.camera {
+                let moveRight = SKAction.moveBy(x: 10, y: 0, duration: 0.03)
+                let moveLeft = SKAction.moveBy(x: -10, y: 0, duration: 0.03)
+                let shake = SKAction.sequence([moveRight, moveLeft, moveLeft, moveRight])
+                camera.run(shake)
+            }
+        }
+
+
         
         if wasPlaying && !playing {
             Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 1.8)
