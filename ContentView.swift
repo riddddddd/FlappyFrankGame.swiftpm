@@ -3,8 +3,8 @@ import SpriteKit
 
 
 struct ContentView: View {
-    @State private var score = 0
-    @State private var highScore = UserDefaults.standard.integer(forKey: "HighScore")
+    @State var score = 0
+    @State var highScore = UserDefaults.standard.integer(forKey: "HighScore")
     @State var boolthing = false
     var body: some View {
         
