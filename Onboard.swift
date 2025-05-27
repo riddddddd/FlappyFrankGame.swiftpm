@@ -8,8 +8,8 @@ import SwiftUI
 
 struct Onboard: View {
     
-    @AppStorage("Onboarded") private var Onboarded = false
-    @State private var float = false
+    @AppStorage("Onboarded") var Onboarded = false
+    @State var float = false
     
     var body: some View {
         VStack{
@@ -46,7 +46,7 @@ struct Onboard: View {
 }
 struct V3: View {
     @AppStorage("Onboarded") private var Onboarded = false
-@State private var pressed = false
+@State var pressed = false
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)

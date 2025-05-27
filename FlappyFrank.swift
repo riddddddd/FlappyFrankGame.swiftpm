@@ -29,6 +29,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     let OtherscoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
     let gameOverLabel = SKLabelNode(fontNamed: "Courier-Bold")
     let easterEggLabel = SKLabelNode(fontNamed: "Courier-Bold")
+    let easterEggLabel2 = SKLabelNode(fontNamed: "Courier-Bold")
     var playing = false
     var wasPlaying = true
     var score = 0
@@ -165,6 +166,18 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         easterEggLabel.isHidden = true
         addChild(easterEggLabel)
 
+       
+        
+        easterEggLabel2.fontSize = 35
+        easterEggLabel2.fontColor = .red
+        easterEggLabel2.position = CGPoint(x: size.width / 2, y: size.height - 250)
+        easterEggLabel.zPosition = 15
+        easterEggLabel.text = "You Reached Will's High Score"
+        easterEggLabel2.isHidden = true
+        addChild(easterEggLabel2)
+        
+        
+        
         
     }
     
@@ -306,6 +319,19 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             ])
             easterEggLabel.run(fadeOut)
         }
+        
+        
+        if score == 36 {
+            easterEggLabel2.isHidden = false
+            
+            let fadeOut = SKAction.sequence([
+                SKAction.wait(forDuration: 1.0),
+                SKAction.fadeOut(withDuration: 1.0),
+                SKAction.run { self.easterEggLabel2.isHidden = true; self.easterEggLabel2.alpha = 1.0 }
+                ])
+            easterEggLabel2.run(fadeOut)
+            
+                                            }
 
 
         
