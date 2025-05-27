@@ -35,11 +35,14 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var score = 0
     var passedPipes: [SKNode] = []
     var highscore = 0
+    var settingsButton: SKSpriteNode?
+
     
     
     
     @AppStorage("HighScore") private var HighScore = 0
-    
+    @AppStorage("selectedFrank") private var selectedFrank: String = "Frank"
+
     
     
     
@@ -82,6 +85,16 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         
+        settingsButton = SKSpriteNode(imageNamed: "settingsIcon")
+        if let settingsButton = settingsButton {
+            settingsButton.name = "settings"
+            settingsButton.setScale(0.5)
+            settingsButton.position = CGPoint(x: size.width - 75, y: size.height - 75)
+            settingsButton.zPosition = 100
+            addChild(settingsButton)
+        }
+
+       
         
         let cameraNode = SKCameraNode()
         self.camera = cameraNode
@@ -105,7 +118,9 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         addChild(background)
         
         Start.position = CGPoint(x: size.width / 2, y: size.height / 4)
-        
+     
+        Frank.texture = SKTexture(imageNamed: selectedFrank)
+
         Frank.position = CGPoint(x: size.width / 2 - 100, y: size.height / 2)
         Frank.setScale(0.07)
         Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
@@ -193,6 +208,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         playing = true
         print("playing = true")
         
+        updateFrankTexture()
+        settingsButton?.isHidden = true
+
+        
         Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
         Frank.physicsBody?.affectedByGravity = true
         Frank.physicsBody?.allowsRotation = false
@@ -217,9 +236,22 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         gameOverLabel.isHidden = true
         
     }
-    
+    func updateFrankTexture() {
+        Frank.texture = SKTexture(imageNamed: selectedFrank)
+    }
+//   
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches{
+        for touch in touches {
+            let location = touch.location(in: self)
+
+            // Check if the settings button was tapped
+            let tappedNode = atPoint(location)
+            if tappedNode.name == "settings" {
+                if let view = self.view {
+                    let vc = UIHostingController(rootView: FrankSettingsView())
+                    view.window?.rootViewController?.present(vc, animated: true)
+                }
+            }
             if touch == touches.first{
                 enumerateChildNodes(withName: "//*", using: {(node, stop) in
                     if node.name == "start" {
@@ -230,11 +262,11 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                 })
             }
         }
-        
         if(playing){
-            flap()
-        }
+                    flap()
+                }
     }
+
     
     func spawnPipes() {
         let pipeGap: CGFloat = CGFloat.random(in: 240...290)
@@ -302,6 +334,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                     if(HighScore < score){
                         HighScore = score
                     }
+                    settingsButton?.isHidden = false
                     shakeScreen()
                     break
                 }
