@@ -28,6 +28,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     let highscoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
     let OtherscoreLabel = SKLabelNode(fontNamed: "Courier-Bold")
     let gameOverLabel = SKLabelNode(fontNamed: "Courier-Bold")
+    let easterEggLabel = SKLabelNode(fontNamed: "Courier-Bold")
     var playing = false
     var wasPlaying = true
     var score = 0
@@ -35,6 +36,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var highscore = 0
     var settingsButton: SKSpriteNode?
 
+    
+    
     
     @AppStorage("HighScore") private var HighScore = 0
     @AppStorage("selectedFrank") private var selectedFrank: String = "Frank"
@@ -168,6 +171,15 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         gameOverLabel.text = "GAME OVER"
         gameOverLabel.isHidden = true
         addChild(gameOverLabel)
+        
+        easterEggLabel.fontSize = 50
+        easterEggLabel.fontColor = .green
+        easterEggLabel.position = CGPoint(x: size.width / 2, y: size.height - 250)
+        easterEggLabel.zPosition = 15
+        easterEggLabel.text = "Good Job!"
+        easterEggLabel.isHidden = true
+        addChild(easterEggLabel)
+
         
     }
     
@@ -317,6 +329,17 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             }
         }
         
+        if score == 10 {
+            easterEggLabel.isHidden = false
+       
+            let fadeOut = SKAction.sequence([
+                SKAction.wait(forDuration: 1.0),
+                SKAction.fadeOut(withDuration: 1.0),
+                SKAction.run { self.easterEggLabel.isHidden = true; self.easterEggLabel.alpha = 1.0 }
+            ])
+            easterEggLabel.run(fadeOut)
+        }
+
 
         
         func shakeScreen() {
