@@ -3,7 +3,7 @@ import SwiftUI
 @main
 struct MyApp: App {
     
-    @AppStorage("Onboarded") private var Onboarded = false
+    @AppStorage("Onboarded") var Onboarded = false
     
     var body: some Scene {
         

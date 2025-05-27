@@ -45,7 +45,7 @@ struct Onboard: View {
     Onboard()
 }
 struct V3: View {
-    @AppStorage("Onboarded") private var Onboarded = false
+    @AppStorage("Onboarded") var Onboarded = false
 @State var pressed = false
     var body: some View {
         ZStack{
