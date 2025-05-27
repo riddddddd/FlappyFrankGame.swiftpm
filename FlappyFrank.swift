@@ -183,7 +183,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
 
        
         
-        easterEggLabel2.fontSize = 35
+        easterEggLabel2.fontSize = 15
         easterEggLabel2.fontColor = .red
         easterEggLabel2.position = CGPoint(x: size.width / 2, y: size.height - 250)
         easterEggLabel.zPosition = 15
