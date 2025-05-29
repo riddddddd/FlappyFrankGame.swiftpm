@@ -15,7 +15,7 @@ struct PhysicsCategory {
 }
 
 
-@MainActor
+
 
 class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     

@@ -197,7 +197,7 @@ struct FrankSettingsView: View {
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                     if HighScore >= 50{
-                        Text("Silver Frank")
+                        Text("Epic Frank")
                         Spacer()
                         Button{ selectedFrank = "Frank7"}label: {
                             if selectedFrank == "Frank7" {
@@ -222,7 +222,7 @@ struct FrankSettingsView: View {
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                     if HighScore >= 100{
-                        Text("Gold Frank")
+                        Text("Legendary Frank")
                         Spacer()
                         Button{ selectedFrank = "Frank8"}label: {
                             if selectedFrank == "Frank8" {
