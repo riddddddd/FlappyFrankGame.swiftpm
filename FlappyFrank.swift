@@ -36,6 +36,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var passedPipes: [SKNode] = []
     var highscore = 0
     var settingsButton: SKSpriteNode?
+    var darkModeEnabled = false
 
     
     
@@ -45,6 +46,14 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
 
     
     
+    
+    func enableDarkMode() {
+        background.texture = SKTexture(imageNamed: "BackgroundImageDark")
+        darkModeEnabled = true
+    }
+    
+    
+
     
     
     override func sceneDidLoad() {
@@ -80,6 +89,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         self.addChild(Start)
         Start.name = "start"
         Start.setScale(0.1)
+        
+        
+        
+        
     }
     
     override func didMove(to view: SKView) {
@@ -235,6 +248,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         gameOverLabel.isHidden = true
         
+        
+      
+        
+        
     }
     func updateFrankTexture() {
         Frank.texture = SKTexture(imageNamed: selectedFrank)
@@ -365,6 +382,10 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             easterEggLabel2.run(fadeOut)
             
                                             }
+        
+        if score >= 2 && !darkModeEnabled {
+            enableDarkMode()
+        }
 
 
         
