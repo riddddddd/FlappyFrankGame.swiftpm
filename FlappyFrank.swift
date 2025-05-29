@@ -199,8 +199,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         easterEggLabel2.fontSize = 15
         easterEggLabel2.fontColor = .red
         easterEggLabel2.position = CGPoint(x: size.width / 2, y: size.height - 250)
-        easterEggLabel.zPosition = 15
-        easterEggLabel.text = "You Reached Will's High Score"
+        easterEggLabel2.zPosition = 15
+        easterEggLabel2.text = "You Reached Will's High Score"
         easterEggLabel2.isHidden = true
         addChild(easterEggLabel2)
         
