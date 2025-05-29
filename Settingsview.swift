@@ -181,6 +181,54 @@ struct FrankSettingsView: View {
                         }
 
                     }
+                HStack {
+                    Image("Frank7")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                    if HighScore >= 50{
+                        Text("Silver Frank")
+                        Spacer()
+                        Button{ selectedFrank = "Frank7"}label: {
+                            if selectedFrank == "Frank7" {
+                              
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.black)
+                            }
+                        }
+                    }else{Text("Locked: Need Highscore of 50!")
+                            .opacity(0.55)
+                        Spacer()
+                        if selectedFrank == "Frank7" {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+
+                }
+                HStack {
+                    Image("Frank8")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                    if HighScore >= 100{
+                        Text("Gold Frank")
+                        Spacer()
+                        Button{ selectedFrank = "Frank8"}label: {
+                            if selectedFrank == "Frank8" {
+                              
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.black)
+                            }
+                        }
+                    }else{Text("Locked: Need Highscore of 100!")
+                            .opacity(0.55)
+                        Spacer()
+                        if selectedFrank == "Frank8" {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+
+                }
                     
                 }
                 .navigationTitle("Select Your Frank")
