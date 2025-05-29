@@ -36,7 +36,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     var passedPipes: [SKNode] = []
     var highscore = 0
     var settingsButton: SKSpriteNode?
-    var darkModeEnabled = false
+    var darkModeButton: SKSpriteNode!
+    var isDarkMode = false
 
     
     
@@ -47,11 +48,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
     
     
     
-    func enableDarkMode() {
-        background.texture = SKTexture(imageNamed: "BackgroundImageDark")
-        darkModeEnabled = true
-    }
-    
+   
     
 
     
@@ -107,6 +104,16 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             addChild(settingsButton)
         }
 
+        
+        darkModeButton = SKSpriteNode(imageNamed: "MoonImage")
+        darkModeButton.name = "darkModeButton"
+        darkModeButton.setScale(0.5)
+        darkModeButton.position = CGPoint(x: 60, y: size.height - 60)
+        darkModeButton.zPosition = 100
+        addChild(darkModeButton)
+        
+        
+        
        
         
         let cameraNode = SKCameraNode()
@@ -250,14 +257,47 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         
       
+      
         
         
     }
+    func toggleDarkMode() {
+        isDarkMode.toggle()
+        
+        if isDarkMode {
+            background.texture = SKTexture(imageNamed: "BackgroundImageDark")
+            darkModeButton.texture = SKTexture(imageNamed: "SunImage")
+            
+        } else {
+            background.texture = SKTexture(imageNamed: "BackgroundImage")
+            darkModeButton.texture = SKTexture(imageNamed: "MoonImage")
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
     func updateFrankTexture() {
         Frank.texture = SKTexture(imageNamed: selectedFrank)
     }
 //   
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        let tappedNode = atPoint(location)
+        
+        if tappedNode.name == "darkModeButton" {
+            toggleDarkMode()
+            return
+        }
+        
+        
+        
+        
         for touch in touches {
             let location = touch.location(in: self)
 
@@ -382,11 +422,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
             easterEggLabel2.run(fadeOut)
             
                                             }
-        
-        if score >= 2 && !darkModeEnabled {
-            enableDarkMode()
-        }
-
+    
 
         
         func shakeScreen() {
