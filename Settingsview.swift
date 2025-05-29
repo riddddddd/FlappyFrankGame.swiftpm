@@ -10,6 +10,7 @@ import SwiftUI
 struct FrankSettingsView: View {
     @AppStorage("selectedFrank") var selectedFrank: String = "Frank"
     @AppStorage("HighScore") var HighScore = 0
+    
     var body: some View {
         NavigationView {
             List {
@@ -30,11 +31,13 @@ struct FrankSettingsView: View {
                 }
                 
                 HStack {
-                    Image("Frank1")
+                    Image(HighScore >= 5 ? "Frank1" : "Mystery")
+
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                     if HighScore >= 5{
+                        
                         Text("Blue Frank")
                         Spacer()
                         Button{ selectedFrank = "Frank1"}label: {
@@ -44,6 +47,7 @@ struct FrankSettingsView: View {
                                     .foregroundStyle(.black)
                             }
                         }
+                        
                     }else{Text("Locked: Need Highscore of 5!")
                             .opacity(0.55)
                         Spacer()
@@ -54,7 +58,8 @@ struct FrankSettingsView: View {
                 
                 }
                     HStack {
-                        Image("Frank2")
+                        Image(HighScore >= 10 ? "Frank2" : "Mystery")
+
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -80,7 +85,8 @@ struct FrankSettingsView: View {
                    
                     
                     HStack {
-                        Image("Frank3")
+                        Image(HighScore >= 15 ? "Frank3" : "Mystery")
+
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -106,7 +112,8 @@ struct FrankSettingsView: View {
                     
                     
                     HStack {
-                        Image("Frank4")
+                        Image(HighScore >= 20 ? "Frank4" : "Mystery")
+
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -132,7 +139,8 @@ struct FrankSettingsView: View {
                     
                     
                     HStack {
-                        Image("Frank5")
+                        Image(HighScore >= 25 ? "Frank5" : "Mystery")
+
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -158,7 +166,8 @@ struct FrankSettingsView: View {
                     
                     
                     HStack {
-                        Image("Frank6")
+                        Image(HighScore >= 30 ? "Frank6" : "Mystery")
+
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
@@ -182,7 +191,8 @@ struct FrankSettingsView: View {
 
                     }
                 HStack {
-                    Image("Frank7")
+                    Image(HighScore >= 50 ? "Frank7" : "Mystery")
+
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
@@ -206,7 +216,8 @@ struct FrankSettingsView: View {
 
                 }
                 HStack {
-                    Image("Frank8")
+                    Image(HighScore >= 100 ? "Frank8" : "Mystery")
+
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
