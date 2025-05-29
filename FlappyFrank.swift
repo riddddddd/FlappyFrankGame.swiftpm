@@ -107,8 +107,8 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         darkModeButton = SKSpriteNode(imageNamed: "MoonImage")
         darkModeButton.name = "darkModeButton"
-        darkModeButton.setScale(0.5)
-        darkModeButton.position = CGPoint(x: 60, y: size.height - 60)
+        darkModeButton.setScale(0.38)
+        darkModeButton.position = CGPoint(x: 75, y: size.height - 70)
         darkModeButton.zPosition = 100
         addChild(darkModeButton)
         
