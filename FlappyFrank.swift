@@ -230,7 +230,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
         
         updateFrankTexture()
         settingsButton?.isHidden = true
-
+        darkModeButton?.isHidden = true
         
         Frank.physicsBody = SKPhysicsBody(rectangleOf: Frank.size)
         Frank.physicsBody?.affectedByGravity = true
@@ -392,6 +392,7 @@ class FlappyFrank: SKScene, SKPhysicsContactDelegate{
                         HighScore = score
                     }
                     settingsButton?.isHidden = false
+                    darkModeButton?.isHidden = false
                     shakeScreen()
                     break
                 }
